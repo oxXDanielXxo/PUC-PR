@@ -6,3 +6,6 @@ Commit 2: adiciona função soma
 def subtrai(a, b):
     return a - b
 Commit 3: adiciona função subtrai
+def multiplica(a, b):
+    return a * b
+Commit 4: adiciona função multiplica
