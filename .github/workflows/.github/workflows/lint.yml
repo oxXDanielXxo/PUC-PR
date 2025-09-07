@@ -1,0 +1,21 @@
+name: Code Quality - Super Linter
+
+on:
+  push:
+    branches: [ main, feature-novo ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout do código
+      uses: actions/checkout@v4
+
+    - name: Rodar Super Linter
+      uses: github/super-linter@v7
+      env:
+        DEFAULT_BRANCH: main
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
