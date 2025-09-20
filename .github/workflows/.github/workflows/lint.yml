@@ -1,21 +1,24 @@
-name: Code Quality - Super Linter
+name: CI com Alerta no Discord
 
 on:
   push:
-    branches: [ main, feature-novo ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout do código
-      uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Rodar Super Linter
-      uses: github/super-linter@v7
-      env:
-        DEFAULT_BRANCH: main
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Enviar alerta para Discord
+        run: |
+          curl -H "Content-Type: application/json" \
+               -d @- "${{ secrets.DISCORD_WEBHOOK }}" <<PAYLOAD
+          {
+            "content": "🚀 Novo evento no repositório *${{ github.repository }}* \n🔀 Branch: ${{ github.ref }} \n👤 Autor: ${{ github.actor }} \n📌 Mensagem: ${{ github.event.head_commit.message }}"
+          }
+          PAYLOAD
